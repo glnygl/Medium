@@ -70,17 +70,29 @@ final class LoginViewModel: ObservableObject {
             .assign(to: &$isButtonDisabled)
     }
     
+
+    // MARK: Other examples
+    
     private func subscribeToAll2() {
         $mail
             .combineLatest($password)
             .map { mail, password in
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
-            .assign(to: \.isButtonDisabled, on: self)
+            .assign(to: \.isButtonDisabled, on: self) // assign func has keyPath and root
             .store(in: &cancellables)
     }
     
     private func subscribeToAll3() {
+        cancellable = $mail  // assign AnyCancellable object to cancellable propery to keep subscription alive so you dont have to use store func anymore
+            .combineLatest($password)
+            .map { mail, password in
+                return ( mail.contains("@gmail.com") &&  password.count >= 6 )
+            }
+            .assign(to: \.isButtonDisabled, on: self)
+    }
+    
+    private func subscribeToAll4() {
         Publishers.CombineLatest($mail, $password) // CombineLatest struct
             .map { mail, password in
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
