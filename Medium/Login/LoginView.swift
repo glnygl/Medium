@@ -13,13 +13,16 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 30) {
+            
             TextField("Mail", text: $viewModel.mail)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.emailAddress)
                 .showWarning(viewModel.mailWarning)
+            
             SecureField("Password", text: $viewModel.password)
                 .textFieldStyle(.roundedBorder)
                 .showWarning(viewModel.passwordWarning)
+            
             Button("Login") {
                 print("Login Successful!")
             }
