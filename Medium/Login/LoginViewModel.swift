@@ -10,17 +10,17 @@ import Combine
 final class LoginViewModel: ObservableObject {
     
     // MARK: Propery observers
-//    @Published var mail: String = "" {
-//        didSet {
-//            mailWarning =  mail.isEmpty || mail.contains("@gmail.com") ? "" : "Enter your gmail address"
-//        }
-//    }
-//    
-//    @Published var password: String = "" {
-//        didSet {
-//            passwordWarning = password.isEmpty || password.count >= 6 ? "" : "Password should be at least 6 characters"
-//        }
-//    }
+    //    @Published var mail: String = "" {
+    //        didSet {
+    //            mailWarning =  mail.isEmpty || mail.contains("@gmail.com") ? "" : "Enter your gmail address"
+    //        }
+    //    }
+    //
+    //    @Published var password: String = "" {
+    //        didSet {
+    //            passwordWarning = password.isEmpty || password.count >= 6 ? "" : "Password should be at least 6 characters"
+    //        }
+    //    }
     
     @Published var mail: String = ""
     @Published var password: String = ""
@@ -77,6 +77,17 @@ final class LoginViewModel: ObservableObject {
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
             .assign(to: \.isButtonDisabled, on: self)
+            .store(in: &cancellables)
+    }
+    
+    private func subscribeToAll3() {
+        Publishers.CombineLatest($mail, $password) // CombineLatest struct
+            .map { mail, password in
+                return ( mail.contains("@gmail.com") &&  password.count >= 6 )
+            }
+            .sink { [weak self] value in
+                self?.isButtonDisabled = value
+            }
             .store(in: &cancellables)
     }
     
