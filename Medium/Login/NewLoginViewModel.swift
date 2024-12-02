@@ -10,17 +10,22 @@ import Combine
 
 @Observable
 final class NewLoginViewModel {
+
+//    MARK: @ObservationIgnored
+//    @ObservationIgnored
+//    @Published
+//    var mail: String = ""
     
-    var mail: String = ""
-    {
+    var mail: String = "" {
         didSet {
+            guard oldValue != mail else { return }
             mailPublisher.send(mail)
         }
     }
     
-    var password: String = ""
-    {
+    var password: String = "" {
         didSet {
+            guard oldValue != password else { return }
             passwordPublisher.send(password)
         }
     }
@@ -43,7 +48,7 @@ final class NewLoginViewModel {
     }
     
     private func subscribeToMail() {
-        
+
     }
     
     private func subscribeToPassword() {

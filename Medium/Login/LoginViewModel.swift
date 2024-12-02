@@ -7,20 +7,25 @@
 
 import Combine
 
+// MARK: Read Article
+// https://medium.com/@glnygl94/using-observableobject-in-combine-swiftui-3-6b33dd51749f
+
 final class LoginViewModel: ObservableObject {
     
-    // MARK: Propery observers
-    //    @Published var mail: String = "" {
-    //        didSet {
-    //            mailWarning =  mail.isEmpty || mail.contains("@gmail.com") ? "" : "Enter your gmail address"
-    //        }
-    //    }
-    //
-    //    @Published var password: String = "" {
-    //        didSet {
-    //            passwordWarning = password.isEmpty || password.count >= 6 ? "" : "Password should be at least 6 characters"
-    //        }
-    //    }
+//     MARK: Propery observers
+//        @Published var mail: String = "" {
+//            didSet {
+//                guard oldValue != mail else { return }
+//                mailWarning =  mail.isEmpty || mail.contains("@gmail.com") ? "" : "Enter your gmail address"
+//            }
+//        }
+//    
+//        @Published var password: String = "" {
+//            didSet {
+//                guard oldValue != password else { return }
+//                passwordWarning = password.isEmpty || password.count >= 6 ? "" : "Password should be at least 6 characters"
+//            }
+//        }
     
     @Published var mail: String = ""
     @Published var password: String = ""
