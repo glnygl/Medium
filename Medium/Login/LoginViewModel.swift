@@ -5,6 +5,7 @@
 //  Created by Glny Gl on 29/11/2024.
 //
 
+import Foundation
 import Combine
 
 // MARK: Read Article
@@ -33,7 +34,7 @@ final class LoginViewModel: ObservableObject {
     @Published var mailWarning: String = ""
     @Published var passwordWarning: String = ""
     
-    @Published var isButtonDisabled = true
+    @Published var isButtonEnabled = false
     
     private var cancellable: AnyCancellable? // single cancellable
     private var cancellables = Set<AnyCancellable>() // cancellable set
@@ -54,7 +55,7 @@ final class LoginViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     private func subscribeToPassword() {
         $password
             .map { password in
@@ -72,7 +73,7 @@ final class LoginViewModel: ObservableObject {
             .map { mail, password in
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
-            .assign(to: &$isButtonDisabled)
+            .assign(to: &$isButtonEnabled)
     }
     
 
@@ -84,7 +85,7 @@ final class LoginViewModel: ObservableObject {
             .map { mail, password in
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
-            .assign(to: \.isButtonDisabled, on: self) // assign func has keyPath and root
+            .assign(to: \.isButtonEnabled, on: self) // assign func has keyPath and root
             .store(in: &cancellables)
     }
     
@@ -94,7 +95,7 @@ final class LoginViewModel: ObservableObject {
             .map { mail, password in
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
-            .assign(to: \.isButtonDisabled, on: self)
+            .assign(to: \.isButtonEnabled, on: self)
     }
     
     private func subscribeToAll4() {
@@ -103,7 +104,7 @@ final class LoginViewModel: ObservableObject {
                 return ( mail.contains("@gmail.com") &&  password.count >= 6 )
             }
             .sink { [weak self] value in
-                self?.isButtonDisabled = value
+                self?.isButtonEnabled = value
             }
             .store(in: &cancellables)
     }

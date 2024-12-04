@@ -27,7 +27,7 @@ struct LoginView: View {
                 print("Login Successful!")
             }
             .buttonStyle(.borderedProminent)
-            .disabled(!viewModel.isButtonDisabled)
+            .disabled(!viewModel.isButtonEnabled)
         }
         .padding()
     }

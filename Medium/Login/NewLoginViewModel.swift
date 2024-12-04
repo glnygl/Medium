@@ -39,7 +39,7 @@ final class NewLoginViewModel {
     var mailWarning: String = ""
     var passwordWarning: String = ""
     
-    var isButtonDisabled = true
+    var isButtonEnabled = false
     
     init() {
         subscribeToMail()
@@ -48,15 +48,53 @@ final class NewLoginViewModel {
     }
     
     private func subscribeToMail() {
-
+        mailPublisher
+            .map { mail in
+                return mail.isEmpty || mail.contains("@gmail.com") ? "" : "Enter your gmail address"
+            }
+            .sink { [weak self] mailWarning in
+                self?.mailWarning = mailWarning
+            }
+            .store(in: &cancellables)
     }
     
     private func subscribeToPassword() {
-        
+        passwordPublisher
+            .map { password in
+                return password.isEmpty || password.count >= 6 ? "" : "Password should be at least 6 characters"
+            }
+            .sink { [weak self] passwordWarning in
+                self?.passwordWarning = passwordWarning
+            }
+            .store(in: &cancellables)
+
     }
     
     private func subscribeToAll() {
-        
+        mailPublisher
+            .combineLatest(passwordPublisher)
+            .map { mail, password in
+                return ( mail.contains("@gmail.com") &&  password.count >= 6 )
+            }
+            .assign(to: \.isButtonEnabled, on: self)
+            .store(in: &cancellables)
     }
+    
+    // MARK: Other examples
+    
+    enum CustomError: Error {
+        case failed
+    }
+    
+    private let customPublisher = PassthroughSubject<String, Error>()
+    
+    private func sendCompletion() {
+        customPublisher.send(completion: .finished)
+    }
+    
+    private func sendError() {
+        customPublisher.send(completion: .failure(CustomError.failed))
+    }
+    
     
 }
