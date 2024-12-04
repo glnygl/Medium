@@ -67,7 +67,6 @@ final class NewLoginViewModel {
                 self?.passwordWarning = passwordWarning
             }
             .store(in: &cancellables)
-
     }
     
     private func subscribeToAll() {
@@ -81,6 +80,15 @@ final class NewLoginViewModel {
     }
     
     // MARK: Other examples
+    
+    var userName: String = "" {
+        didSet {
+            guard oldValue != userName else { return }
+            userNamePublisher.send(userName)
+        }
+    }
+    
+    private let userNamePublisher = CurrentValueSubject<String, Never>("")
     
     enum CustomError: Error {
         case failed
@@ -96,5 +104,11 @@ final class NewLoginViewModel {
         customPublisher.send(completion: .failure(CustomError.failed))
     }
     
+    private func sendValueWithFunction() {
+        userNamePublisher.send("Mary")
+    }
     
+    private func sendValueDirectly() {
+        userNamePublisher.value = "Jane"
+    }
 }
