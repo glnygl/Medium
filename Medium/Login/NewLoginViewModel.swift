@@ -10,11 +10,11 @@ import Combine
 
 @Observable
 final class NewLoginViewModel {
-
-//    MARK: @ObservationIgnored
-//    @ObservationIgnored
-//    @Published
-//    var mail: String = ""
+    
+    //    MARK: @ObservationIgnored
+    //    @ObservationIgnored
+    //    @Published
+    //    var mail: String = ""
     
     var mail: String = "" {
         didSet {
@@ -81,6 +81,8 @@ final class NewLoginViewModel {
     
     // MARK: Other examples
     
+    // Create CurrentValueSubject
+    
     var userName: String = "" {
         didSet {
             guard oldValue != userName else { return }
@@ -89,6 +91,8 @@ final class NewLoginViewModel {
     }
     
     private let userNamePublisher = CurrentValueSubject<String, Never>("")
+    
+    // Send completion status
     
     enum CustomError: Error {
         case failed
