@@ -16,6 +16,10 @@ final class NewLoginViewModel {
     //    @Published
     //    var mail: String = ""
     
+    @ObservationIgnored
+    @Published
+    var loginCount: Int = 0
+    
     var mail: String = "" {
         didSet {
             guard oldValue != mail else { return }
@@ -91,6 +95,19 @@ final class NewLoginViewModel {
     }
     
     private let userNamePublisher = CurrentValueSubject<String, Never>("")
+    
+    var userNameWarning: String = ""
+    
+    private func subscribeToUserName() {
+        userNamePublisher
+            .map { userName in
+                return userName.isEmpty || userName.count > 6 ? "" : "Enter valid userName"
+            }
+            .sink { [weak self] userNameWarning in
+                self?.userNameWarning = userNameWarning
+            }
+            .store(in: &cancellables)
+    }
     
     // Send completion status
     

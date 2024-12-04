@@ -24,8 +24,11 @@ struct NewLoginView: View {
                 .showWarning(viewModel.passwordWarning)
             
             Button("Login") {
-                print("Login Successful!")
+                viewModel.loginCount += 1
+                print("\(viewModel.loginCount)") 
+                
             }
+            Text("Login count: \(viewModel.loginCount)")
             .buttonStyle(.borderedProminent)
             .disabled(!viewModel.isButtonEnabled)
         }
