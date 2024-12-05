@@ -85,6 +85,14 @@ final class NewLoginViewModel {
     
     // MARK: Other examples
     
+    private func subscribeToLoginCount() {
+        $loginCount
+            .sink { value in
+                print(value)
+            }
+            .store(in: &cancellables)
+    }
+    
     // Create CurrentValueSubject
     
     var userName: String = "" {

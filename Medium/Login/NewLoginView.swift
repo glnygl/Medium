@@ -25,12 +25,12 @@ struct NewLoginView: View {
             
             Button("Login") {
                 viewModel.loginCount += 1
-                print("\(viewModel.loginCount)") 
-                
+                print("\(viewModel.loginCount)")
             }
-            Text("Login count: \(viewModel.loginCount)")
             .buttonStyle(.borderedProminent)
             .disabled(!viewModel.isButtonEnabled)
+
+            Text("Login count: \(viewModel.loginCount)")
         }
         .padding()
     }
